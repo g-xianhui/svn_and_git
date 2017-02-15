@@ -1,0 +1,29 @@
+svn propedit svn:ignore cdata/
+
+svn diff -r PREV xxx
+
+
+==========
+svnadmin create ~/programming/svn_repos
+# create layout
+svn import . file:///home/gxhn3697/programming/svn_repos --message "Initial layout"
+
+svn co file:///home/gxhn3697/programming/svn_repos/projectA/trunk projectA_trunk
+
+# when truck already finish a version
+svn copy file:///home/gxhn3697/programming/svn_repos/projectA/trunk \
+file:///home/gxhn3697/programming/svn_repos/projectA/branches/release \
+ -m "create release branch"
+
+# checkout release branch and test, then maybe some bugs need merge back to trunk
+svn merge file:///home/gxhn3697/programming/svn_repos/projectA/branches/release
+or
+svn merge file:///home/gxhn3697/programming/svn_repos/projectA/branches/release -r xxx:xxx
+
+# when release is really ready for publish
+svn copy file:///home/gxhn3697/programming/svn_repos/projectA/branches/release \
+file:///home/gxhn3697/programming/svn_repos/projectA/tags/release-1.0 \
+-m "Tagging 1.0"
+
+# when tag come up which bug, correct it on trunk, if it hurt so bad, merge to
+release branch, then copy a new tag, publish again
